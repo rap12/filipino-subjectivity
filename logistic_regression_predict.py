@@ -40,7 +40,7 @@ trainX,trainY,testX,testY = import_data()
 # Get our dimensions for our different variables and placeholders:
 # numFeatures = the number of words extracted from each email
 numFeatures = trainX.shape[1]
-# numLabels = number of classes we are predicting (here just 2: ham or spam)
+# numLabels = number of classes we are predicting (here just 2: objective or subjective)
 numLabels = trainY.shape[1]
 
 #create a tensorflow session
@@ -55,7 +55,7 @@ sess = tf.Session()
 # data. 'None' here means that we can hold any number of emails
 X = tf.placeholder(tf.float32, [None, numFeatures])
 # yGold = Y-matrix / label-matrix / labels... This will be our correct answers
-# matrix. Every row has either [1,0] for SPAM or [0,1] for HAM. 'None' here
+# matrix. Every row has either [1,0] for SUBJECTIVE or [0,1] for OBJECTIVE. 'None' here
 # means that we can hold any number of emails
 yGold = tf.placeholder(tf.float32, [None, numLabels])
 
@@ -108,9 +108,9 @@ saver.restore(sess, "trained_variables.ckpt")
 #method for converting tensor label to string label
 def labelToString(label):
     if np.argmax(label) == 0:
-        return "ham"
+        return "objective"
     else:
-        return "spam"
+        return "subjective"
 
 #make prediction on a given test set item
 def predict(features, goldLabel):
